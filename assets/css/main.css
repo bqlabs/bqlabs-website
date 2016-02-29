@@ -197,7 +197,9 @@ a:hover, a.active {
     clear: both;
 }
 .project__image {
-    width: 15em;
+    width: 240px;
+    height: 240px;
+    line-height: 240px;
 }
 .project__title {
     color: #2D2D34;

@@ -62,7 +62,7 @@ function setMarkupRepo(data) {
 
     projectList.append(
         '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '">'
-        +  (data['image'] ? '<a href="' + data['html_url'] + '"> <img class="project__image" src="' + data['image'] + '"></a></br>' : '')
+        +  (data['image'] ? '<div class="project__image"><a href="' + data['html_url'] + '"> <img style="vertical-align:middle;" src="' + data['image'] + '"></a></div>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
         +  '</a>'
