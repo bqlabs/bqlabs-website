@@ -7,7 +7,7 @@ function getGithubProjects() {
 
     var loader = $('.loader');
 
-    //
+    // $.ajaxSetup({ cache: false });
 
     $.ajax({
         type: "GET",
@@ -21,7 +21,19 @@ function getGithubProjects() {
             loader.remove();
 
             $.each(resp.data, function (i) {
-                resp.data[i]['image'] = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i]['name'] + '/master/doc/main.png';
+
+                var repo = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i]['name'] + '/' + resp.data[i]['default_branch'] + '/';
+
+                $.getJSON(repo + 'doc/data.json')
+                          .done(function( data ) {
+                              if (data.image_url) {
+                                resp.data[i]['image'] = repo + data.image_url;
+                              }
+                              if (data.tags instanceof Array) {
+                                resp.data[i]['category'] = data.tags[0];
+                              }
+                          });
+
                 setMarkupRepo(resp.data[i]);
             });
 
@@ -44,7 +56,7 @@ function getGithubProjects() {
 function setMarkupRepo(data) {
 
     projectList.append(
-        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['language'] ? data['language'] : 'other') + '">'
+        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '">'
         +  (data['image']? '<a href="' + data['html_url'] + '"> <img class="project__image" src="' + data['image'] + '"></a></br>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
@@ -68,7 +80,7 @@ function handleMixItUp() {
     var inputText;
     var $matching = $();
     var $searcher = $(".searcher__input");
-    var languageList = ['JavaScript', 'CSS', 'C++', 'C', 'Java', 'Ruby'];
+    var categoryList = ['software', 'electronics', 'mechanics'];
 
     projectList.mixItUp({
         selectors: {
@@ -81,7 +93,7 @@ function handleMixItUp() {
             onMixFail: function(state){
                 if(state.activeFilter == 'none') {
                     $('.project').each(function() {
-                        if( $.inArray($(this).attr('category'), languageList) == -1 ){
+                        if( $.inArray($(this).attr('category'), categoryList) == -1 ){
                             $matching = $matching.add(this);
                         }
                     });
