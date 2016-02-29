@@ -7,6 +7,8 @@ function getGithubProjects() {
 
     var loader = $('.loader');
 
+    //
+
     $.ajax({
         type: "GET",
         url: 'https://api.github.com/orgs/bqlabs/repos?callback=?',
@@ -19,6 +21,7 @@ function getGithubProjects() {
             loader.remove();
 
             $.each(resp.data, function (i) {
+                resp.data[i]['image'] = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i]['name'] + '/master/doc/main.png';
                 setMarkupRepo(resp.data[i]);
             });
 
@@ -41,7 +44,8 @@ function getGithubProjects() {
 function setMarkupRepo(data) {
 
     projectList.append(
-        '<div class="project" data-star="' + data['stargazers_count']+ '" data-language="' + (data['language'] ? data['language'] : 'other') + '">'
+        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['language'] ? data['language'] : 'other') + '">'
+        +  (data['image']? '<a href="' + data['html_url'] + '"> <img class="project__image" src="' + data['image'] + '"></a></br>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
         +  '</a>'
@@ -77,7 +81,7 @@ function handleMixItUp() {
             onMixFail: function(state){
                 if(state.activeFilter == 'none') {
                     $('.project').each(function() {
-                        if( $.inArray($(this).attr('data-language'), languageList) == -1 ){
+                        if( $.inArray($(this).attr('category'), languageList) == -1 ){
                             $matching = $matching.add(this);
                         }
                     });
