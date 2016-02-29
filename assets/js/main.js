@@ -22,22 +22,27 @@ function getGithubProjects() {
 
             $.each(resp.data, function (i) {
 
-                var repo = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i]['name'] + '/' + resp.data[i]['default_branch'] + '/';
+                var repo = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i].name + '/' + resp.data[i].default_branch + '/';
 
                 $.getJSON(repo + 'doc/data.json')
-                          .done(function( data ) {
-                              if (data.image_url) {
-                                resp.data[i]['image'] = repo + data.image_url;
+                      .done(function( data ) {
+                          if (data) {
+                              if (data.image) {
+                                resp.data[i]['image'] = repo + data.image;
                               }
                               if (data.tags instanceof Array) {
                                 resp.data[i]['category'] = data.tags[0];
                               }
-                          });
-
-                setMarkupRepo(resp.data[i]);
+                              setMarkupRepo(resp.data[i]);
+                          }
+                      })
+                      .always(function() {
+                          if (i == resp.data.length - 1) {
+                              handleMixItUp();
+                          }
+                      });
             });
 
-            handleMixItUp();
 
         } else {
 
@@ -57,7 +62,7 @@ function setMarkupRepo(data) {
 
     projectList.append(
         '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '">'
-        +  (data['image']? '<a href="' + data['html_url'] + '"> <img class="project__image" src="' + data['image'] + '"></a></br>' : '')
+        +  (data['image'] ? '<a href="' + data['html_url'] + '"> <img class="project__image" src="' + data['image'] + '"></a></br>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
         +  '</a>'
