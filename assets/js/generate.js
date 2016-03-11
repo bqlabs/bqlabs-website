@@ -15,31 +15,27 @@ $.ajax({
 
       if (data.length > 0) {
 
-          loader.remove();
-
           $.each(data, function (i) {
 
-              var name = resp.data[i].name;
-
-              projects[name] = {};
+              var name = data[i].name;
 
               var repo = 'https://raw.githubusercontent.com/bqlabs/' + data[i].name + '/' + data[i].default_branch + '/';
 
               $.getJSON(repo + 'doc/data.json')
                 .done(function( info ) {
                     if (info) {
+                        projects[name] = {};
                         if (info.image) {
-                            projects[name]['image'] = repo + info.image;
+                            projects[name]['image'] = info.image;
                         }
                         if (info.tags instanceof Array) {
                             projects[name]['tags'] = info.tags;
                         }
-                        setMarkupRepo(data[i]);
                     }
                 })
                 .always(function() {
                     if (i == data.length - 1) {
-                        handleMixItUp();
+                        console.log(JSON.stringify(projects));
                     }
                 });
           });

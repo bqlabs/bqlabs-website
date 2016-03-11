@@ -1,5 +1,7 @@
 /* main.js */
 
+var _static = true;
+
 var projectList = $('.projects-list');
 
 
@@ -14,6 +16,7 @@ function getGithubProjects() {
       headers: {
           'Authorization': 'token 35637034c3d4cb3d4b84ac09eee5c4b0aac2c661' // public access token
       },
+      timeout: 3000,
       complete: function(xhr) {
           var data = xhr.responseJSON;
 
@@ -25,39 +28,42 @@ function getGithubProjects() {
 
                   var repo = 'https://raw.githubusercontent.com/bqlabs/' + data[i].name + '/' + data[i].default_branch + '/';
 
-                  $.getJSON(repo + 'doc/data.json')
-                    .done(function( info ) {
+                  if (_static) {
+                      var info = projects[data[i].name];
+
                         if (info) {
                             if (info.image) {
-                                data[i]['image'] = repo + info.image;
+                              data[i]['image'] = repo + info.image;
                             }
                             if (info.tags instanceof Array) {
-                                data[i]['tags'] = info.tags;
+                              data[i]['category'] = info.tags[0];
                             }
                             setMarkupRepo(data[i]);
                         }
-                    })
-                    .always(function() {
+
                         if (i == data.length - 1) {
                             handleMixItUp();
                         }
-                    });
-
-                /*var info = projects[data[i].name];
-
-                  if (info) {
-                      if (info.image) {
-                        data[i]['image'] = repo + info.image;
-                      }
-                      if (info.tags instanceof Array) {
-                        data[i]['category'] = info.tags[0];
-                      }
-                      setMarkupRepo(data[i]);
                   }
-
-                  if (i == data.length - 1) {
-                      handleMixItUp();
-                  }*/
+                  else {
+                      $.getJSON(repo + 'doc/data.json')
+                        .done(function( info ) {
+                            if (info) {
+                                if (info.image) {
+                                    data[i]['image'] = repo + info.image;
+                                }
+                                if (info.tags instanceof Array) {
+                                    data[i]['tags'] = info.tags;
+                                }
+                                setMarkupRepo(data[i]);
+                            }
+                        })
+                        .always(function() {
+                            if (i == data.length - 1) {
+                                handleMixItUp();
+                            }
+                        });
+                  }
               });
 
           } else {
