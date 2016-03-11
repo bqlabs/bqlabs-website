@@ -75,10 +75,11 @@ a:hover, a.active {
     max-width: 1140px;
     margin-left: auto;
     margin-right: auto;
-    min-height: 100px;
+    min-height: 200px;
     text-align: center;
     background-repeat: no-repeat;
     background-position: center;
+    background-image: url("../images/jumbo.png");
 }
 .jumbo:after {
     content: " ";
