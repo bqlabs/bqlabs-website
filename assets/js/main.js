@@ -1,6 +1,6 @@
 /* main.js */
 
-var _static = true;
+var _static = false;
 
 var projectList = $('.projects-list');
 
@@ -53,7 +53,7 @@ function getGithubProjects() {
                                     data[i]['image'] = repo + info.image;
                                 }
                                 if (info.tags instanceof Array) {
-                                    data[i]['tags'] = info.tags;
+                                    data[i]['category'] = info.tags[0];
                                 }
                                 setMarkupRepo(data[i]);
                             }
