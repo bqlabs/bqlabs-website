@@ -10,52 +10,68 @@ function getGithubProjects() {
     // $.ajaxSetup({ cache: false });
 
     $.ajax({
-        type: "GET",
-        url: 'https://api.github.com/orgs/bqlabs/repos?callback=?',
-        data: { type: "all", per_page: 500},
-        dataType: 'json'
-    }).done(function(resp) {
+      url: 'https://api.github.com/orgs/bqlabs/repos?type=all&per_page=500',
+      headers: {
+          'Authorization': 'token 35637034c3d4cb3d4b84ac09eee5c4b0aac2c661' // public access token
+      },
+      complete: function(xhr) {
+          var data = xhr.responseJSON;
 
-        if (resp.data.length > 0) {
+          if (data.length > 0) {
 
-            loader.remove();
+              loader.remove();
 
-            $.each(resp.data, function (i) {
+              $.each(data, function (i) {
 
-                var repo = 'https://raw.githubusercontent.com/bqlabs/' + resp.data[i].name + '/' + resp.data[i].default_branch + '/';
+                  var repo = 'https://raw.githubusercontent.com/bqlabs/' + data[i].name + '/' + data[i].default_branch + '/';
 
-                $.getJSON(repo + 'doc/data.json')
-                      .done(function( data ) {
-                          if (data) {
-                              if (data.image) {
-                                resp.data[i]['image'] = repo + data.image;
-                              }
-                              if (data.tags instanceof Array) {
-                                resp.data[i]['category'] = data.tags[0];
-                              }
-                              setMarkupRepo(resp.data[i]);
-                          }
-                      })
-                      .always(function() {
-                          if (i == resp.data.length - 1) {
-                              handleMixItUp();
-                          }
-                      });
-            });
+                  $.getJSON(repo + 'doc/data.json')
+                    .done(function( info ) {
+                        if (info) {
+                            if (info.image) {
+                                data[i]['image'] = repo + info.image;
+                            }
+                            if (info.tags instanceof Array) {
+                                data[i]['tags'] = info.tags;
+                            }
+                            setMarkupRepo(data[i]);
+                        }
+                    })
+                    .always(function() {
+                        if (i == data.length - 1) {
+                            handleMixItUp();
+                        }
+                    });
 
+                /*var info = projects[data[i].name];
 
-        } else {
+                  if (info) {
+                      if (info.image) {
+                        data[i]['image'] = repo + info.image;
+                      }
+                      if (info.tags instanceof Array) {
+                        data[i]['category'] = info.tags[0];
+                      }
+                      setMarkupRepo(data[i]);
+                  }
 
-            loader.remove();
-            projectList.html('<p class="align-center">Could not show any repository</p>');
+                  if (i == data.length - 1) {
+                      handleMixItUp();
+                  }*/
+              });
 
-        }
-    }).fail(function() {
+          } else {
 
-        loader.remove();
-        projectList.html('<p class="align-center">Repositories have failed loaded.</p>');
+              loader.remove();
+              projectList.html('<p class="align-center">Could not show any repository</p>');
 
-    });
+          }
+      }}).fail(function() {
+
+          loader.remove();
+          projectList.html('<p class="align-center">Repositories have failed loaded.</p>');
+
+      });
 }
 
 function setMarkupRepo(data) {
