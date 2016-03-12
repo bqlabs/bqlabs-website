@@ -1,4 +1,18 @@
 var projects = {
+   "AirPad":{
+      "image":"doc/main.png",
+      "tags":[
+         "software",
+         "app"
+      ]
+   },
+   "horus":{
+      "image":"doc/images/main.png",
+      "tags":[
+         "software",
+         "scanner"
+      ]
+   },
    "ciclop":{
       "image":"doc/images/main.png",
       "tags":[
@@ -37,6 +51,15 @@ var projects = {
          "electronics"
       ]
    },
+   "Sunrise":{
+      "image":"doc/images/main.png",
+      "tags":[
+         "mechanical",
+         "DLP",
+         "3D printer",
+         "resin"
+      ]
+   },
    "maus":{
       "image":"doc/images/main.png",
       "tags":[
@@ -53,12 +76,26 @@ var projects = {
          "robotics"
       ]
    },
+   "rainbow":{
+      "image":"doc/images/main.png",
+      "tags":[
+         "software",
+         "server"
+      ]
+   },
    "kame":{
       "image":"doc/images/main.png",
       "tags":[
          "robotics",
          "hardware",
          "software"
+      ]
+   },
+   "miniBLIP":{
+      "image":"doc/main.png",
+      "tags":[
+         "electronics",
+         "development"
       ]
    },
    "Dextra":{
@@ -91,6 +128,13 @@ var projects = {
          "mechanics",
          "software",
          "robotics"
+      ]
+   },
+   "icestudio":{
+      "image":"doc/images/main.png",
+      "tags":[
+         "software",
+         "fpga"
       ]
    },
    "BQ-8":{
@@ -138,17 +182,17 @@ var projects = {
          "web"
       ]
    },
+   "icezum":{
+      "image":"doc/main.png",
+      "tags":[
+         "electronics",
+         "fpga"
+      ]
+   },
    "Mumai":{
       "image":"doc/images/mumai.png",
       "tags":[
          "electronics"
-      ]
-   },
-   "AirPad":{
-      "image":"doc/main.png",
-      "tags":[
-         "software",
-         "app"
       ]
    }
 };

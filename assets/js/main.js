@@ -1,6 +1,6 @@
 /* main.js */
 
-var _static = false;
+var _static = true;
 
 var projectList = $('.projects-list');
 
