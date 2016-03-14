@@ -23,20 +23,24 @@ $.ajax({
 
               $.getJSON(repo + 'doc/data.json')
                 .done(function( info ) {
-                    if (info) {
-                        projects[name] = {};
-                        if (info.image) {
-                            projects[name]['image'] = info.image;
+                    setTimeout( function() {
+                        if (info) {
+                            projects[name] = {};
+                            if (info.image) {
+                                projects[name]['image'] = info.image;
+                            }
+                            if (info.tags instanceof Array) {
+                                projects[name]['tags'] = info.tags;
+                            }
                         }
-                        if (info.tags instanceof Array) {
-                            projects[name]['tags'] = info.tags;
-                        }
-                    }
+                    }, 100);
                 })
                 .always(function() {
-                    if (i == data.length - 1) {
-                        $("div")[0].innerHTML = 'var projects = ' + JSON.stringify(projects) + ';';
-                    }
+                    setTimeout( function() {
+                        if (i == data.length - 1) {
+                            $("div")[0].innerHTML = 'var projects = ' + JSON.stringify(projects) + ';';
+                        }
+                    }, 1000);
                 });
           });
       }

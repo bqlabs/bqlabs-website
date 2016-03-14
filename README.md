@@ -6,7 +6,7 @@ http://bqlabs.github.io/
 
 * /doc/data.json:
 
-Main categories: software | electronics | mechanics | robotics
+Main categories: software | electronics | mechanics | robotics | documentation
 
 Example:
 

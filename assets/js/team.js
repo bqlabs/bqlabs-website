@@ -24,8 +24,6 @@ function getGithubMembers() {
 
               $.each(data, function (i) {
 
-                    console.log(data[i]);
-
                     setMarkupMember(data[i]);
 
                     if (i == data.length - 1) {
@@ -45,7 +43,7 @@ function setMarkupMember(data) {
 
     memberList.append(
         '<div class="project">'
-        +  (data['avatar_url'] ? '<div class="project__image"><a href="' + data['html_url'] + '"> <img style="vertical-align:middle;" src="' + data['avatar_url'] + '"></a></div>' : '')
+        +  (data['avatar_url'] ? '<div class="project__image"><a href="' + data['html_url'] + '"> <img style="width:150px;height:150px;vertical-align:middle;" src="' + data['avatar_url'] + '"></a></div>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['login'] + '</em>'
         +  '</a>'
