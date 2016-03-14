@@ -35,7 +35,7 @@ $.ajax({
                 })
                 .always(function() {
                     if (i == data.length - 1) {
-                        console.log(JSON.stringify(projects));
+                        $("div")[0].innerHTML = 'var projects = ' + JSON.stringify(projects) + ';';
                     }
                 });
           });
