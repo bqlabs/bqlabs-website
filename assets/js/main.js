@@ -107,7 +107,7 @@ function handleMixItUp() {
     var inputText;
     var $matching = $();
     var $searcher = $(".searcher__input");
-    var categoryList = ['software', 'electronics', 'mechanics'];
+    var categoryList = ['software', 'electronics', 'mechanics', 'robotics'];
 
     projectList.mixItUp({
         selectors: {
