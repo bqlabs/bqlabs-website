@@ -37,6 +37,7 @@ function getGithubProjects() {
                             }
                             if (info.tags instanceof Array) {
                               data[i]['category'] = info.tags[0];
+                              data[i]['tags'] = info.tags;
                             }
                             setMarkupRepo(data[i]);
                         }
@@ -54,6 +55,7 @@ function getGithubProjects() {
                                 }
                                 if (info.tags instanceof Array) {
                                     data[i]['category'] = info.tags[0];
+                                    data[i]['tags'] = info.tags;
                                 }
                                 setMarkupRepo(data[i]);
                             }
@@ -83,7 +85,7 @@ function getGithubProjects() {
 function setMarkupRepo(data) {
 
     projectList.append(
-        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '">'
+        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '" tags="' + (data['tags'].join(','))+ '">'
         +  (data['image'] ? '<div class="project__image"><a href="' + data['html_url'] + '"> <img style="vertical-align:middle;" src="' + data['image'] + '"></a></div>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
@@ -169,18 +171,22 @@ function handleMixItUp() {
             if ((inputText.length) > 0) {
                 $('.project').each(function() {
 
-                    // add item to be filtered out if input text matches items inside the title
-                    if($(this).children('.project__title').children('em').text().toLowerCase().match(inputText)) {
+                    // removes any previously matched item
+                    $matching = $matching.not(this);
+
+                    // search in tags
+                    if ($(this).attr('tags').toLowerCase().match(inputText)) {
                         $matching = $matching.add(this);
                     }
-                    else {
-                        // removes any previously matched item
-                        $matching = $matching.not(this);
-                    }
-                });
 
-                // set matching filters
-                projectList.mixItUp('filter', $matching);
+                    // add item to be filtered out if input text matches items inside the title
+                    if ($(this).children('.project__title').children('em').text().toLowerCase().match(inputText)) {
+                        $matching = $matching.add(this);
+                    }
+
+                    // set matching filters
+                    projectList.mixItUp('filter', $matching);
+                });
             }
 
             else {
