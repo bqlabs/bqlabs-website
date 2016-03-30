@@ -85,7 +85,7 @@ function getGithubProjects() {
 function setMarkupRepo(data) {
 
     projectList.append(
-        '<div class="project" data-star="' + data['stargazers_count']+ '" category="' + (data['category'] ? data['category'] : 'other') + '" tags="' + (data['tags'].join(','))+ '">'
+        '<div class="project" data-title="' + data['name']+ '" category="' + (data['category'] ? data['category'] : 'other') + '" tags="' + (data['tags'].join(','))+ '">'
         +  (data['image'] ? '<div class="project__image"><a href="' + data['html_url'] + '"> <img style="vertical-align:middle;" src="' + data['image'] + '"></a></div>' : '')
         +  '<a class="project__title" href="' + data['html_url'] + '">'
         +     '<em>' + data['name'] + '</em>'
@@ -95,9 +95,6 @@ function setMarkupRepo(data) {
         +  '</p>'
         +   (data['homepage'] ? '<p class="project__homepage"><span class="octicon octicon-link-external"></span> <a href="' + data['homepage'] + '">' + data['homepage'] + '</a></p>' : '')
         +  '<p class="project__stats">'
-        +    (data['language'] ? data['language'] : '')
-        +    ' <span class="octicon octicon-star"></span> ' + data['stargazers_count']
-        +    ' <span class="octicon octicon-git-branch"></span> ' + data['forks_count']
         +  '</p>'
         + '</div>'
     );
@@ -116,7 +113,7 @@ function handleMixItUp() {
             target: '.project'
         },
         load: {
-            sort: 'star:desc'
+            sort: 'title:asc'
         },
         callbacks: {
             onMixFail: function(state){
